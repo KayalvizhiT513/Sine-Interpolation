@@ -64,7 +64,7 @@ def get_sine_value(angle, theta_equally_spaced, sine_equally_spaced, theta_skewe
 st.title("Sine Approximation with Lookup Tables")
 
 # User input for number of values
-num_values = st.number_input("Number of Values", min_value=5, max_value=100, value=20)
+num_values = st.number_input("Number of Values", min_value=5, max_value=1000, value=20)
 
 # Generate equally distributed theta values from 0 to pi/2
 theta_equally_spaced = np.linspace(0, np.pi/2, num_values)
