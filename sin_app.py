@@ -50,7 +50,7 @@ def get_sine_value(angle, theta_equally_spaced, sine_equally_spaced, theta_skewe
     relative_error_skew = error_skew / actual_value if error_skew is not None and actual_value != 0 else None
 
     return {
-        'Angle': angle,
+        'Angle': angle*180/np.pi,
         'Sine (Equally Spaced)': sine_eq,
         'Error (Equally Spaced)': error_eq,
         'Relative Error (Equally Spaced)': relative_error_eq,
@@ -71,7 +71,26 @@ theta_equally_spaced = np.linspace(0, np.pi/2, num_values)
 sine_equally_spaced = np.sin(theta_equally_spaced)
 
 # Generate skewed distribution towards pi/2
-theta_skewed = np.linspace(0, 1, num_values)**(1/2) * (np.pi / 2)  # Skewed towards pi/2
+theta = np.linspace(0, np.pi/2, num_values)
+y = np.sin(theta)
+
+# Calculate delta_theta
+delta_theta = theta[1] - theta[0]
+
+# Initialize arrays to store derivatives
+second_derivative = np.zeros(num_values)
+
+# Compute central difference for second derivatives (skipping boundaries)
+for i in range(1, num_values-1):    
+    # Second derivative (change in rate of change) using central difference
+    second_derivative[i] = (y[i+1] - 2*y[i] + y[i-1]) / (delta_theta**2)
+
+l = [0]
+for i in range(1, len(second_derivative)-1):
+    l.append(second_derivative[i]*(second_derivative[i+1] - second_derivative[i]))
+
+theta_skewed = l/max(l)
+theta_skewed = [(x*np.pi/2) for x in theta_skewed if x >= 0]  # Skewed towards pi/2
 sine_skewed = np.sin(theta_skewed)
 
 # Button to display the lookup table
