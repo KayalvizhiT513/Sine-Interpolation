@@ -90,7 +90,7 @@ for i in range(1, len(second_derivative)-1):
     l.append(second_derivative[i]*(second_derivative[i+1] - second_derivative[i]))
 
 theta_skewed = l/max(l)
-theta_skewed = [(x*np.pi/2) for x in theta_skewed if x >= 0]  # Skewed towards pi/2
+theta_skewed = sorted([(x*np.pi/2) for x in theta_skewed if x >= 0])  # Skewed towards pi/2
 sine_skewed = np.sin(theta_skewed)
 
 # Button to display the lookup table
